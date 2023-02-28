@@ -6,7 +6,7 @@ DEBUG=
 GIT_USER=${GIT_USER:-"Your Name"}
 GIT_EMAIL=${GIT_EMAIL:-"yourname@email.com"}
 WORK_DIR=$(pwd)/build-temp
-CEKIT_RESPOND_YES=true
+export CEKIT_RESPOND_YES=true
 
 function help()
 {
@@ -23,6 +23,7 @@ function help()
     echo ""
     echo "Optional:"
     echo "  -h                        Print this help message"
+    echo "  -c COMPONENT              Component for which an image is being built."
     echo "  -p KERBEROS_PRINCIPAL     Kerberos principal to use with to access build systems. If not specified,"
     echo "                            the script assumes there is a valid kerberos ticket in force. If it is specified"
     echo "                            then one of KERBEROS_KEYTAB or KERBEROS_PASSWORD is required."
@@ -108,7 +109,7 @@ function set_git_config() {
 }
 
 
-while getopts gu:e:v:t:o:r:n:d:p:k:s:b:l:i:w:h option; do
+while getopts gu:e:v:c:t:o:r:n:d:p:k:s:b:l:i:w:h option; do
     case $option in
         g)
             DEBUG=true
@@ -121,6 +122,9 @@ while getopts gu:e:v:t:o:r:n:d:p:k:s:b:l:i:w:h option; do
             ;;
         v)
             PROD_VERSION=$OPTARG
+            ;;
+        c)
+            COMPONENT=$OPTARG
             ;;
         t)
             OSBS_BUILD_TARGET=$OPTARG
